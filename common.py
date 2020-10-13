@@ -75,7 +75,11 @@ def auto_complete_conf(conf):
     if 'use_audio_training_model' not in conf:
         conf.use_audio_training_model = True
 
+#module dynamic import from variable 'moduleName' from config.py
+import importlib
 from config import *
+module = importlib.__import__(moduleName, fromlist=['conf'])
+conf = getattr(module, 'conf')
 auto_complete_conf(conf)
 print(conf)
 
@@ -115,7 +119,7 @@ def read_audio(conf, pathname, trim_long_data):
     return y
 
 def audio_to_melspectrogram(conf, audio):
-    spectrogram = librosa.feature.melspectrogram(audio, 
+    spectrogram = librosa.feature.melspectrogram(audio,
                                                  sr=conf.sampling_rate,
                                                  n_mels=conf.n_mels,
                                                  hop_length=conf.hop_length,
@@ -132,7 +136,7 @@ def show_melspectrogram(conf, mels, title='Log-frequency power spectrogram'):
     from sklearn.model_selection import StratifiedKFold
     matplotlib.style.use('ggplot')
 
-    librosa.display.specshow(mels, x_axis='time', y_axis='mel', 
+    librosa.display.specshow(mels, x_axis='time', y_axis='mel',
                              sr=conf.sampling_rate, hop_length=conf.hop_length,
                             fmin=conf.fmin, fmax=conf.fmax)
     plt.colorbar(format='%+2.0f dB')
@@ -225,7 +229,7 @@ class KerasTFGraph:
         self.layer_out = self.graph.get_operation_by_name(output_name)
         self.sess = tf.Session(graph=self.graph)
     def predict(self, X):
-        preds = self.sess.run(self.layer_out.outputs[0], 
+        preds = self.sess.run(self.layer_out.outputs[0],
                               {self.layer_in.outputs[0]: X,
                                self.leayer_klp.outputs[0]: 0})
         return preds
@@ -246,7 +250,7 @@ def load_keras_tf_graph(conf, graph_file):
         input_name=model_node[conf.model][0],
         keras_learning_phase_name=model_node[conf.model][1],
         output_name=model_node[conf.model][2])
-        
+
 # # Pyaudio Utilities
 if is_handling_audio(conf):
     import pyaudio
@@ -275,4 +279,3 @@ def test_equal(a, b):
 def test_not_equal(a, b):
     """Exhaustively test if a != b"""
     return not test_equal(a, b)
-

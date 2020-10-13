@@ -2,11 +2,11 @@ import keras
 from keras.layers import Dense, Conv2D, SeparableConv2D, Convolution2D, AveragePooling2D
 from keras.layers import MaxPooling2D, GlobalAveragePooling2D, GlobalMaxPooling2D, Activation, Dropout, BatchNormalization, Flatten, Input
 from keras.models import Model, Sequential
-from keras.applications.mobilenet_v2 import MobileNetV2
+from keras.applications.mobilenetv2 import MobileNetV2
 
 def model_cnn_alexnet(input_shape, num_classes, time_compress=[2, 1, 1], early_strides=(2,3)):
     model = Sequential()
- 
+
     model.add(Conv2D(48, 11,  input_shape=input_shape, strides=early_strides, activation='relu', padding='same'))
     model.add(MaxPooling2D(3, strides=(1,2)))
     model.add(BatchNormalization())

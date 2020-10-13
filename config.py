@@ -1,1 +1,1 @@
-apps/fsdkaggle2018/config.py
+moduleName = 'apps.fsdkaggle2018.config'

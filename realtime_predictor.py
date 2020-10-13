@@ -3,10 +3,10 @@
 #
 # Run sound classifier in realtime.
 #
+import sys
 from common import *
 
 import pyaudio
-import sys
 import time
 import array
 import numpy as np
